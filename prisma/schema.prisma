@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Chat {
+  id        String    @id @default(uuid())
+  sessionId String    @unique
+  messages  Message[]
+  userAgent String?
+  ipAddress String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("chats")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  role      MessageRole
+  content   String
+  timestamp DateTime @default(now())
+  chatId    String
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  image       String   @default("/images/bg-day.png")
+  technologies String[]
+  githubUrl   String?
+  liveUrl     String?
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("projects")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
