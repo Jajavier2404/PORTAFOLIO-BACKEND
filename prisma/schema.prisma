@@ -45,17 +45,31 @@ model Message {
 }
 
 model Project {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  image       String   @default("/images/bg-day.png")
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  image        String   @default("/images/bg-day.png")
   technologies String[]
-  githubUrl   String?
-  liveUrl     String?
-  featured    Boolean  @default(false)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  githubUrl    String?
+  liveUrl      String?
+  featured     Boolean  @default(false)
+  order        Int      @default(0)
+  
+  // Campos de sincronización con GitHub
+  githubId     String?  @unique
+  repoName     String?
+  repoOwner    String?
+  repoDescription String?
+  repoLanguage String?
+  repoStars    Int      @default(0)
+  repoForks    Int      @default(0)
+  repoTopics   String[]
+  lastSyncedAt DateTime?
+  aiGenerated  Boolean  @default(false)
+  aiDescription String?
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("projects")
 }

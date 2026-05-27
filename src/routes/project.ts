@@ -13,4 +13,7 @@ router.post('/', authenticate, authorizeAdmin, projectController.create);
 router.put('/:id', authenticate, authorizeAdmin, projectController.update);
 router.delete('/:id', authenticate, authorizeAdmin, projectController.delete);
 
+// Sincronización con GitHub (solo admin)
+router.post('/sync-github', authenticate, authorizeAdmin, projectController.syncWithGitHub);
+
 export default router;

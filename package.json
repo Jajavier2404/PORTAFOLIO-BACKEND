@@ -12,7 +12,7 @@
     "db:studio": "prisma studio",
     "db:seed": "ts-node prisma/seed.ts",
     "db:reset": "prisma migrate reset",
-    "test": "echo \"Error: no test specified\" \u0026\u0026 exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -26,6 +26,7 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^7.8.0",
+    "axios": "^1.16.1",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
