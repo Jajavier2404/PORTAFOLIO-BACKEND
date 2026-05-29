@@ -22,24 +22,36 @@ model User {
 }
 
 model Chat {
-  id        String    @id @default(uuid())
-  sessionId String    @unique
-  messages  Message[]
-  userAgent String?
-  ipAddress String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String    @id @default(uuid())
+  sessionId   String    @unique
+  messages    Message[]
+  userAgent   String?
+  ipAddress   String?
+  
+  // Campos para registro y análisis
+  title       String?   @default("Nueva conversación")
+  isActive    Boolean   @default(true)
+  messageCount Int      @default(0)
+  lastMessageAt DateTime?
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("chats")
 }
 
 model Message {
-  id        String   @id @default(uuid())
-  role      MessageRole
-  content   String
-  timestamp DateTime @default(now())
-  chatId    String
-  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  id          String   @id @default(uuid())
+  role        MessageRole
+  content     String
+  timestamp   DateTime @default(now())
+  chatId      String
+  chat        Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  
+  // Metadatos adicionales
+  isAiGenerated Boolean @default(false)
+  processingTime Int?    // Tiempo en ms que tomó generar la respuesta
+  modelUsed   String?    // Modelo de IA usado
 
   @@map("messages")
 }
